@@ -3,7 +3,7 @@
 const fs = require("fs").promises;
 
 class UserStorage {
-    static #getUserInfo() {
+    static #getUserInfo(data, id) {
         const users = JSON.parse(data);
         const idx = users.id.indexOf(id);
         const usersKeys = Object.keys(users);
@@ -36,7 +36,8 @@ class UserStorage {
     }
 
     static getUserInfo(id) {
-        return fs.readFile("./src/databases/users.json")
+        return fs
+            .readFile("./src/databases/users.json")
             .then((data) => {
                 return this.#getUserInfo(data, id);
             })
@@ -46,7 +47,7 @@ class UserStorage {
     static async save(userInfo) {
         const users = await this.getUsers(true);
         if (users.id.includes(userInfo.id)) {
-            throw "이미 존재하는 아이디입니다.";
+            throw "이미 존재하는 아이디입니다." ;
         }
         users.id.push(userInfo.id);
         users.name.push(userInfo.name);
